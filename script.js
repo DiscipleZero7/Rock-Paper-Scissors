@@ -1,9 +1,3 @@
-let humanScore = 0;
-let computerScore = 0;
-
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
-
 function getComputerChoice() {
     const randomNumber = Math.floor(Math.random() * 3);
     
@@ -29,17 +23,15 @@ function playRound(humanChoice, computerChoice) {
         switch(computerChoice) {
             case "rock":
                 console.log("It's a draw.")
-                return;
+                return "draw";
             
             case "paper":
                 console.log("You lose! Paper beats Rock");
-                computerScore++;
-                return;
+                return "loser";
 
             case "scissors":
                 console.log("You win! Rock beats Scissors.");
-                humanScore++;
-                return
+                return "winner";
         } 
     }
 
@@ -47,17 +39,15 @@ function playRound(humanChoice, computerChoice) {
         switch(computerChoice) {
             case "rock":
                 console.log("You win! Paper beats Rock");
-                humanScore++;
-                return;
+                return "winner";
             
             case "paper":
                 console.log("It's a draw.")
-                return;
+                return "draw";
 
             case "scissors":
                 console.log("You lose! Scissors beats Paper");
-                computerScore++;
-                return;
+                return "loser";
         } 
     }
 
@@ -65,19 +55,41 @@ function playRound(humanChoice, computerChoice) {
         switch(computerChoice) {
             case "rock":
                 console.log("You lose! Rock beats Scissors");
-                computerScore++;
-                return;
+                return "loser";
 
             case "paper":
                 console.log("You win! Scissors beats paper.");
-                humanScore++;
-                return
+                return "winner";
 
             case "scissors":
                 console.log("It's a draw.");
-                return
+                return "draw";
         } 
     } 
 }
 
-playRound(humanSelection, computerSelection);
+function playGame() {
+    let humanScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 3; i++) {
+        const humanSelection = getHumanChoice();
+        const computerSelection = getComputerChoice();
+        const result = playRound(humanSelection, computerSelection);
+
+        switch(result) {
+            case "winner":
+                humanScore++;
+                break;
+
+            case "loser":
+                computerScore++;
+                break;
+
+            case "draw":
+                break;
+        }
+    }
+}
+
+playGame();
