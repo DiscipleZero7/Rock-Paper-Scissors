@@ -14,8 +14,7 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    const answer = prompt("Rock, Paper, or Scissors?");
-    return answer.toLowerCase();
+   //
 }
 
 function playRound(humanChoice, computerChoice) {
@@ -72,14 +71,46 @@ function playGame() {
     let humanScore = 0;
     let computerScore = 0;
 
+    const displayHumanScore = document.querySelector("#player-score");
+    const displayComputerScore = document.querySelector("#computer-score");
+
     const rockBtn = document.querySelector("#rock");
     const paperBtn = document.querySelector("#paper");
     const scissorsBtn = document.querySelector("#scissors");
     const results = document.querySelector("#results");
     
-    rockBtn.addEventListener("click", () => {
-        results.textContent = playRound("rock", getComputerChoice())
-    });
+    const choseRock = () => {
+        const output = playRound("rock", getComputerChoice())
+        console.log(output);
+
+        switch(output) {
+            case "draw":
+                results.textContent = "It's a DRAW!";
+                break;
+
+            case "loser":
+                computerScore++;
+                displayComputerScore.textContent = computerScore;
+                results.textContent = "You LOSE!";
+                break;
+
+            case "winner":
+                humanScore++;
+                displayHumanScore.textContent = humanScore;
+                results.textContent = "You WIN!";
+                break;
+        }
+
+        if (humanScore === 5) {
+            results.textContent = "Score limit reached, you are the winner!";
+            rockBtn.removeEventListener("click", choseRock);
+        } else if (computerScore === 5) {
+            results.textContent = "Score limit reached, you lost!";
+            rockBtn.removeEventListener("click", choseRock);
+        }
+    }
+ 
+    rockBtn.addEventListener("click", choseRock);
 
     paperBtn.addEventListener("click", () => {
         results.textContent = playRound("paper", getComputerChoice())
