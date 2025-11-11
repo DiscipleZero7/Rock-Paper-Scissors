@@ -68,6 +68,7 @@ function playRound(humanChoice, computerChoice) {
 }
 
 function playGame() {
+    
     let humanScore = 0;
     let computerScore = 0;
 
@@ -79,9 +80,10 @@ function playGame() {
     const scissorsBtn = document.querySelector("#scissors");
     const results = document.querySelector("#results");
     
-    const choseRock = () => {
-        const output = playRound("rock", getComputerChoice())
-        console.log(output);
+    const choseRock = (e) => {
+        const output = playRound(e.target.id, getComputerChoice())
+        //console.log(output);
+        //console.log(e.target.id)
 
         switch(output) {
             case "draw":
@@ -101,24 +103,24 @@ function playGame() {
                 break;
         }
 
-        if (humanScore === 5) {
+        if (humanScore >= 5) {
             results.textContent = "Score limit reached, you are the winner!";
             rockBtn.removeEventListener("click", choseRock);
-        } else if (computerScore === 5) {
+            paperBtn.removeEventListener("click", choseRock);
+            scissorsBtn.removeEventListener("click", choseRock);
+        } else if (computerScore >= 5) {
             results.textContent = "Score limit reached, you lost!";
             rockBtn.removeEventListener("click", choseRock);
+            paperBtn.removeEventListener("click", choseRock);
+            scissorsBtn.removeEventListener("click", choseRock);
         }
     }
  
     rockBtn.addEventListener("click", choseRock);
 
-    paperBtn.addEventListener("click", () => {
-        results.textContent = playRound("paper", getComputerChoice())
-    });
+    paperBtn.addEventListener("click", choseRock);
 
-    scissorsBtn.addEventListener("click", () => {
-        results.textContent = playRound("scissors", getComputerChoice())
-    });
+    scissorsBtn.addEventListener("click", choseRock);
 
 
 }
