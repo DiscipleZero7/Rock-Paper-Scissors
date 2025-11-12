@@ -75,54 +75,48 @@ function playGame() {
     const displayHumanScore = document.querySelector("#player-score");
     const displayComputerScore = document.querySelector("#computer-score");
 
-    const rockBtn = document.querySelector("#rock");
-    const paperBtn = document.querySelector("#paper");
-    const scissorsBtn = document.querySelector("#scissors");
     const results = document.querySelector("#results");
-    
-    const choseRock = (e) => {
-        const output = playRound(e.target.id, getComputerChoice())
-        //console.log(output);
-        //console.log(e.target.id)
+    const buttons = document.querySelectorAll(".option");
+
+    function clicked(e) {
+        console.log(e.target.id);
+        const output = playRound(e.target.id, getComputerChoice());
 
         switch(output) {
-            case "draw":
-                results.textContent = "It's a DRAW!";
-                break;
+        case "draw":
+            results.textContent = "It's a DRAW!";
+            break;
 
-            case "loser":
-                computerScore++;
-                displayComputerScore.textContent = computerScore;
-                results.textContent = "You LOSE!";
-                break;
+        case "loser":
+            computerScore++;
+            displayComputerScore.textContent = computerScore;
+            results.textContent = "You LOSE!";
+            break;
 
-            case "winner":
-                humanScore++;
-                displayHumanScore.textContent = humanScore;
-                results.textContent = "You WIN!";
-                break;
+         case "winner":
+            humanScore++;
+            displayHumanScore.textContent = humanScore;
+            results.textContent = "You WIN!";
+            break;
         }
 
         if (humanScore >= 5) {
             results.textContent = "Score limit reached, you are the winner!";
-            rockBtn.removeEventListener("click", choseRock);
-            paperBtn.removeEventListener("click", choseRock);
-            scissorsBtn.removeEventListener("click", choseRock);
+            buttons.forEach((button) => {
+                button.removeEventListener("click", clicked);
+            })
         } else if (computerScore >= 5) {
             results.textContent = "Score limit reached, you lost!";
-            rockBtn.removeEventListener("click", choseRock);
-            paperBtn.removeEventListener("click", choseRock);
-            scissorsBtn.removeEventListener("click", choseRock);
+            buttons.forEach((button) => {
+                button.removeEventListener("click", clicked);
+            })
         }
     }
- 
-    rockBtn.addEventListener("click", choseRock);
-
-    paperBtn.addEventListener("click", choseRock);
-
-    scissorsBtn.addEventListener("click", choseRock);
-
-
+    
+    
+    buttons.forEach((button) => {
+        button.addEventListener("click", clicked);
+    })
 }
 
 playGame();
